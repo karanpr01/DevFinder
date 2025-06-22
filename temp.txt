@@ -1,0 +1,53 @@
+const form = document.getElementById("searchForm");
+const input = document.getElementById("searchInput");
+const resultsContainer = document.getElementById("results");
+
+form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const query = input.value.trim();
+    if (!query) return;
+
+    resultsContainer.innerHTML = "<p>Loading...</p>";
+    
+    try {
+        // 1. Search GitHub users by name or username
+        const searchRes = await fetch(`https://api.github.com/search/users?q=${query}`);
+        const searchData = await searchRes.json();
+
+        const users = searchData.items;
+        if (users.length === 0) {
+            resultsContainer.innerHTML = "<p>No users found.</p>";
+            return;
+        }
+
+        resultsContainer.innerHTML = ""; // Clear old results
+
+        // 2. For each matched user, fetch full profile
+        for (const user of users) {
+            const profileRes = await fetch(`https://api.github.com/users/${user.login}`);
+            const profileData = await profileRes.json();
+
+            // 3. Create profile card
+            const card = document.createElement("div");
+            card.classList.add("user-card");
+            card.innerHTML = `
+                <img src="${profileData.avatar_url}" alt="${profileData.login}" class="avatar">
+                <h2>${profileData.name || "Name not available"}</h2>
+                <p><strong>@${profileData.login}</strong></p>
+                <p>${profileData.bio || "No bio available"}</p>
+                <p>📍 ${profileData.location || "Not available"}</p>
+                <div class="stats">
+                    <span>Repos: ${profileData.public_repos}</span>
+                    <span>Followers: ${profileData.followers}</span>
+                    <span>Following: ${profileData.following}</span>
+                </div>
+                <a href="${profileData.html_url}" target="_blank" class="profile-btn">View Profile</a>
+            `;
+            resultsContainer.appendChild(card);
+        }
+
+    } catch (error) {
+        resultsContainer.innerHTML = "<p>Error fetching data.</p>";
+        console.error(error);
+    }
+});
