@@ -178,7 +178,7 @@ nav {
 
 .user-card {
   border: 2px solid;
-  /* width: 40%; */
+  /*width: 40%;*/
   padding: 10px 30px;
   margin: 10px 20px;
   display: flex;
@@ -214,9 +214,10 @@ nav {
 
 .user-card p {
   margin: 5px;
+    margin-left: 10px;
 }
 
-.user-card .stats span {
+.stats span {
   margin: 10px;
 }
 
@@ -230,18 +231,33 @@ nav {
 
 .user-card button a {
   text-decoration: none;
-  color:var(--tx-color)
+  color: var(--tx-color)
 }
 
 
 @media (max-width:767px) {
 
- .container{
-  flex-wrap: wrap;
-  margin: 10px 20px;
- }
+  .container {
+    flex-wrap: wrap;
+    margin: 10px 20px;
+  }
 
- .user-card{
-  padding: 10px 18px;
- }
+  .user-card {
+    padding: 10px ;
+  }
+}
+
+
+/* Error box */
+
+.error-box {
+  background-color: #ffe6e6;
+  border: 1px solid red;
+  padding: 20px;
+  margin: 20px auto;
+  color: #b00000;
+  border-radius: 8px;
+  max-width: 500px;
+  text-align: center;
+  font-family: sans-serif;
 }
