@@ -72,7 +72,7 @@ searchBtn.addEventListener("click", function () {
 
       const apiUrl = `https://api.github.com/search/users?q=${name}`;
       const response = await fetch(apiUrl);
-      console.log(response.status,data);
+      
       
 
       let data;
@@ -88,6 +88,8 @@ searchBtn.addEventListener("click", function () {
   `);
         return;
       }
+
+      console.log(response.status,data);
 
       // Check for rate limiting message
       if (response.status === 403 && data.message && data.message.toLowerCase().includes("rate limit")) {
